@@ -1,6 +1,7 @@
 package Expense_Calculator.Controller;
 
 import Expense_Calculator.RequestDTO.LoginRequestDTO;
+import Expense_Calculator.RequestDTO.LogoutRequestDTO;
 import Expense_Calculator.RequestDTO.RefreshTokenRequestDTO;
 import Expense_Calculator.RequestDTO.RegisterRequestDTO;
 import Expense_Calculator.ResponseDTO.AuthResponseDTO;
@@ -44,5 +45,14 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO request){
         return ResponseEntity.ok(authService.refreshToken(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(
+            @RequestBody LogoutRequestDTO request) {
+
+        authService.logout(request);
+
+        return ResponseEntity.ok("Logout Successful");
     }
 }

@@ -22,7 +22,8 @@ public class GlobalExceptionHandler {
     public Map<String,String> handleRuntimeException(RuntimeException exception){
 
         Map<String,String> error = new HashMap<>();
-        error.put("message","Invalid email or password");
+        error.put("exception", exception.getClass().getName());
+        error.put("message", exception.getMessage());
         return error;
     }
 

@@ -56,7 +56,7 @@ public class ExpenseController {
 
 
     @GetMapping("/getExpense/{id}")
-    @PreAuthorize("hasRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ExpenseResponseDTO getExpense(@PathVariable long id){
         return expenseService.getExpense(id);
     }
