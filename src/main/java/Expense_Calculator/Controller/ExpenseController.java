@@ -56,11 +56,13 @@ public class ExpenseController {
 
 
     @GetMapping("/getExpense/{id}")
+    @PreAuthorize("hasRole('ADMIN','USER')")
     public ExpenseResponseDTO getExpense(@PathVariable long id){
         return expenseService.getExpense(id);
     }
 
     @DeleteMapping("/deleteExpense/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteExpense(@PathVariable long id){
         expenseService.deleteExpense(id);
     }

@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth->auth
                                 .requestMatchers("/auth/login",
-                                                       "/auth/register").permitAll()
+                                                       "/auth/register",
+                                        "/auth/refresh").permitAll()
                          .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter,

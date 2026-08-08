@@ -1,7 +1,9 @@
 package Expense_Calculator.Controller;
 
 import Expense_Calculator.RequestDTO.LoginRequestDTO;
+import Expense_Calculator.RequestDTO.RefreshTokenRequestDTO;
 import Expense_Calculator.RequestDTO.RegisterRequestDTO;
+import Expense_Calculator.ResponseDTO.AuthResponseDTO;
 import Expense_Calculator.Service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,10 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO request){
-        String token = authService.login(request);
+    public ResponseEntity<AuthResponseDTO>  login(@RequestBody LoginRequestDTO request){
+        AuthResponseDTO response = authService.login(request);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
@@ -37,5 +39,10 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("User Registered Successfully");
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO request){
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 }

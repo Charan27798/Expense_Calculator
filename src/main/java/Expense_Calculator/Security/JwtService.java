@@ -18,16 +18,31 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+    @Value("${jwt.access.expiration}")
+    private long accessExpiration;
 
-    public String generateToken(UserDetails userDetails) {
+    @Value("${jwt.refresh.expiration}")
+    private long refreshExpiration;
 
+    public String generateAccessToken(UserDetails userDetails){
+
+        return buildToken(userDetails, accessExpiration);
+
+    }
+
+    public String generateRefreshToken(UserDetails userDetails){
+
+        return buildToken(userDetails, refreshExpiration);
+
+    }
+
+    private String buildToken(UserDetails userDetails,
+                              long expiration){
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
                 .expiration(
-                new Date(System.currentTimeMillis() + expiration)
+                        new Date(System.currentTimeMillis() + expiration)
                 )
                 .signWith(getSignInKey())
                 .compact();
