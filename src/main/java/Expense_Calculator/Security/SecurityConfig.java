@@ -48,7 +48,12 @@ public class SecurityConfig {
                                         "/auth/refresh",
                                         "/auth/logout",
                                         "/swagger-ui/**",
-                                        "/v3/api-docs/**").permitAll()
+                                        "/v3/api-docs/**",
+                                        "/auth/forgot-password",
+                                        "/auth/reset-password",
+                                        "/actuator/health",
+                                        "/actuator/info",
+                                        "/actuator/metrics").permitAll()
                          .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

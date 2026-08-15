@@ -1,9 +1,6 @@
 package Expense_Calculator.Controller;
 
-import Expense_Calculator.RequestDTO.LoginRequestDTO;
-import Expense_Calculator.RequestDTO.LogoutRequestDTO;
-import Expense_Calculator.RequestDTO.RefreshTokenRequestDTO;
-import Expense_Calculator.RequestDTO.RegisterRequestDTO;
+import Expense_Calculator.RequestDTO.*;
 import Expense_Calculator.ResponseDTO.AuthResponseDTO;
 import Expense_Calculator.Service.AuthService;
 import jakarta.validation.Valid;
@@ -54,5 +51,19 @@ public class AuthController {
         authService.logout(request);
 
         return ResponseEntity.ok("Logout Successful");
+    }
+
+    @PostMapping("/forgot-password")
+    public void forgotPassword(
+            @RequestBody ForgotPasswordRequestDTO requestDTO) {
+
+        authService.forgotPassword(requestDTO);
+    }
+
+    @PostMapping("/reset-password")
+    public void resetPassword(
+            @RequestBody ResetPasswordRequestDTO requestDTO) {
+
+        authService.resetPassword(requestDTO);
     }
 }

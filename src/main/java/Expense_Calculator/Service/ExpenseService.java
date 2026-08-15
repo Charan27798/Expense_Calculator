@@ -9,6 +9,9 @@ import Expense_Calculator.Repository.CategoryRepository;
 import Expense_Calculator.Repository.ExpenseRepository;
 import Expense_Calculator.Repository.UserRepository;
 import Expense_Calculator.ResponseDTO.ExpenseResponseDTO;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -91,8 +94,10 @@ public class ExpenseService {
 //        return expenses.map(this::mapToResponseDTO);
 //    }
 
+    @Cacheable(value = "expenses", key = "#id")
     public ExpenseResponseDTO getExpense(Long id){
 
+        System.out.println("🔥 DATABASE METHOD EXECUTED");
         ExpenseEntity expense = expenseRepo.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Expense not found"));
@@ -127,6 +132,7 @@ public class ExpenseService {
 
     }
 
+    @CacheEvict(value = "expenses", key = "#id")
     public void deleteExpense(long id) {
          expenseRepo.findById(id)
                  .orElseThrow(()->new ResourceNotFoundException("Expense not found"));
@@ -134,6 +140,7 @@ public class ExpenseService {
          expenseRepo.deleteById(id);
     }
 
+    @CachePut(value = "expenses", key = "#id")
     public ExpenseResponseDTO updateExpense(long id, ExpenseRequestDTO dto) {
         ExpenseEntity expense = expenseRepo.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Expense not found"));
