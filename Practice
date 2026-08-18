@@ -1,0 +1,21 @@
+
+post /createExpense
+
+{
+String title
+String description
+long amount
+}
+
+{
+title varchar
+desc  varchar
+
+}
+
+featuere,
+API design(what endpoints, what all params, payloads,)
+DB design(internally how we are storing values, tables creation, PK, FK, how we query)
+backend code(LLD)
+optimization(DB indexing, Redis(in memory), elastic search, kafka)
+
