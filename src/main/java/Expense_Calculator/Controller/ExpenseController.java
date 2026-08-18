@@ -3,6 +3,11 @@ import Expense_Calculator.RequestDTO.ExpenseRequestDTO;
 import Expense_Calculator.Entity.ExpenseEntity;
 import Expense_Calculator.ResponseDTO.ExpenseResponseDTO;
 import Expense_Calculator.Service.ExpenseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,7 +59,28 @@ public class ExpenseController {
 //          return expenseService.getAllExpenses(pageable);
 //      }
 
+    @Operation(
+            summary = "Get expense by ID",
+            description = "Fetches an expense using its unique ID"
+    )
+    @ApiResponses({
 
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Expense retrieved successfully"
+            ),
+
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized - valid JWT token required"
+            ),
+
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Expense not found"
+            )
+    })
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/getExpense/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ExpenseResponseDTO getExpense(@PathVariable long id){
@@ -63,7 +89,11 @@ public class ExpenseController {
 
     @DeleteMapping("/deleteExpense/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteExpense(@PathVariable long id){
+    public void deleteExpense(
+            @Parameter(
+            description = "ID of the expense",
+            example = "4"
+    )@PathVariable long id){
         expenseService.deleteExpense(id);
     }
 
