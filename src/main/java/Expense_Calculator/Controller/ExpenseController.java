@@ -35,7 +35,7 @@ public class ExpenseController {
 
     }
 
-    @PostMapping
+    @PostMapping("addExpense")
     public ExpenseResponseDTO createExpense(@Valid @RequestBody ExpenseRequestDTO dto){
         return expenseService.createExpense(dto);
     }
